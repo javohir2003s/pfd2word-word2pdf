@@ -34,6 +34,7 @@ class ResendOTPAPIView(APIView):
     def post(self, request):
         serializer = ResendOTPSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(data={"user": serializer.data}, status=status.HTTP_200_OK)
 
 
