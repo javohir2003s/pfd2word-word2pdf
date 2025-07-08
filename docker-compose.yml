@@ -33,6 +33,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
 
   celery:
     build: .
@@ -44,6 +45,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
 
   celery-beat:
     build: .
@@ -55,6 +57,18 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
+
+  nginx:
+    image: nginx:1.25
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+        - web
 
 volumes:
   postgres_data:
